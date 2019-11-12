@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     double result = 0.0;
 
     gettimeofday(&T1, NULL);
-    for (unsigned int i = 0; i < 50; i++)
+    for (int i = 0; i < 50; i++)
     {
         srand(i);
 
@@ -23,23 +23,29 @@ int main(int argc, char *argv[])
         double *M2 = (double*)malloc(sizeof(double) * n);
         for (int j = 0; j < N; j++)
         {
-            M1[j] = 1 + (rand_r(&i) % A);
-
-            if (j < n)
-            {
-                M2[j] = A + (rand_r(&i) % (A * 10));
-            }
+            M1[j] = 1 + (rand() % A);
+        }
+        for (int j = 0; j < n; j++)
+        {
+            M2[j] = A + (rand() % (A * 10));
         }
 
         //map
         for (int j = 0; j < N; j++)
         {
             M1[j] = 1.0 / tan(sqrt(M1[j]));
+        }
 
-            if (j < n)
+        for (int j = 0; j < n; j++)
+        {
+            double result = tan(M2[j]);
+
+            if(result < 0.0)
             {
-                M2[j] = fabs(tan(M2[j]));
+                result *= -1.0;
             }
+
+            M2[j] = result;
         }
 
         //merge
@@ -79,13 +85,16 @@ int main(int argc, char *argv[])
         double sum = 0.0;
         for(int j = 0; j < n; j++)
         {
-            sum += (((int)(M2[j] / min)) % 2 == 0 ) ? sin(M2[j]) : 0.0;
+            if(((int)(M2[j] / min)) % 2 == 0 )
+            {
+                sum += sin(M2[j]);
+            }
         }
 
-        result += sum;
+        result = sum;
     }
     gettimeofday(&T2, NULL);
 
     deltaMs = 1000 * (T2.tv_sec - T1.tv_sec) + (T2.tv_usec - T1.tv_usec) / 1000;
-    printf("%f\tN=%d\t%ldms.\n", result / 50.0, N, deltaMs);
+    printf("%d\t%f\t%ld\n", N, result, deltaMs);
 }

@@ -4,7 +4,7 @@ mkdir -p ./bin/icc/
 
 icc -O3 lab1.c -o ./bin/icc/lab1-seq -lm
 
-for((i = 2; i <= 20; i += 2))
+for((i = 2; i <= 4; i += 1))
 do
     icc -O3 -parallel -par-threshold=$i -o ./bin/icc/lab1-par-$i lab1.c -lm    
 done

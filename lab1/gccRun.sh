@@ -1,5 +1,5 @@
 N1=900
-N2=28000
+N2=18000
 let "delta = (N2 - N1)/10"
 
 seqPath="./outputs/gcc-seq-output.txt"

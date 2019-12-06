@@ -3,22 +3,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-void printTime(int i, struct timeval T1, struct timeval T2){
-    if(i != 49){
-        return;
-    }
-    
-    gettimeofday(&T2, NULL);
-    printf("%ld ", 1000 * (T2.tv_sec - T1.tv_sec) + (T2.tv_usec - T1.tv_usec) / 1000);
-}
-
-void swap(double *xp, double *yp) 
-{ 
-    double temp = *xp; 
-    *xp = *yp; 
-    *yp = temp; 
-}
-
 int main(int argc, char *argv[])
 {
     struct timeval T1, T2;
@@ -54,14 +38,8 @@ int main(int argc, char *argv[])
 
         for (int j = 0; j < n; j++)
         {
-            double result = tan(M2[j]);
-
-            if(result < 0.0)
-            {
-                result *= -1.0;
-            }
-
-            M2[j] = result;
+            M2[j] += j == 0 ? 0 : M2[j - 1];
+            M2[j] = abs(tan(M2[j]));
         }
 
         //merge
@@ -75,11 +53,17 @@ int main(int argc, char *argv[])
         for (int i = 0; i < n-1; i++) 
         { 
             min_idx = i; 
-            for (int j = i+1; j < n; j++) 
-            if (M2[j] < M2[min_idx]) 
-                min_idx = j; 
-    
-            swap(&M2[min_idx], &M2[i]); 
+            for (int j = i+1; j < n; j++)
+            {
+                if (M2[j] < M2[min_idx])
+                {
+                    min_idx = j; 
+                }
+            }
+
+            double tmp = M2[min_idx];
+            M2[min_idx] = M2[i];
+            M2[i] = tmp;
         } 
 
         //reduce
@@ -102,6 +86,9 @@ int main(int argc, char *argv[])
         }
 
         result = sum;
+
+        free(M1);
+        free(M2);
     }
     gettimeofday(&T2, NULL);
 

@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
         //map3 = 3
         for (int j = 0; j < n; j++)
         {
-            M2[j] = abs(tan(M2[j]));
+            M2[j] = fabs(tan(M2[j]));
         }
 
         //merge = 3

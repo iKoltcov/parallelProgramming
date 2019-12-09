@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,25 +31,31 @@ int main(int argc, char *argv[])
             M2[j] = A + (rand_r(&seed) % (A * 10));
         }
 
-        //map
+        //map1 = 6
         for (int j = 0; j < N; j++)
         {
-            M1[j] = 1.0 / tan(sqrt(M1[j]));
+            M1[j] = pow(M1[j] / M_E, 1.0 / 3.0);
         }
 
+        //map2
         for (int j = 0; j < n; j++)
         {
             M2[j] += j == 0 ? 0 : M2[j - 1];
+        }
+
+        //map3 = 3
+        for (int j = 0; j < n; j++)
+        {
             M2[j] = abs(tan(M2[j]));
         }
 
-        //merge
+        //merge = 3
         for (int j = 0; j < n; j++)
         {
             M2[j] = M1[j] * M2[j];
         }
 
-        //sort
+        //sort = 7
         int min_idx; 
         for (int i = 0; i < n-1; i++) 
         { 
@@ -93,5 +100,5 @@ int main(int argc, char *argv[])
     gettimeofday(&T2, NULL);
 
     deltaMs = 1000 * (T2.tv_sec - T1.tv_sec) + (T2.tv_usec - T1.tv_usec) / 1000;
-    printf("%d\t%f\t%ld\n", N, result, deltaMs);
+    printf("%d\t%f\t%ld\n", N, result / 50.0, deltaMs);
 }

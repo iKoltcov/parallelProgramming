@@ -14,13 +14,13 @@ do
 		echo '$j' >> $outputPath
 		echo $j'/900'
 
-		./bin/lab2 900 $j >> $outputPath
+		./bin/lab3 900 $j >> $outputPath
 
 		echo $j'/29450'
-		./bin/lab2 29450 $j >> $outputPath
+		./bin/lab3 29450 $j >> $outputPath
 		
 		echo $j'/58000'
-		./bin/lab2 58000 $j >> $outputPath
+		./bin/lab3 58000 $j >> $outputPath
 
 		# echo "$i/$N2"
 	# done

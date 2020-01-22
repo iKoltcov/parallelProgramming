@@ -66,10 +66,10 @@ int main(int argc, char *argv[])
 
         //sort = 7
         int min_idx; 
-        for (int i = 0; i < n-1; i++) 
+        for (int k = 0; k < n-1; k++) 
         { 
-            min_idx = i; 
-            for (int j = i+1; j < n; j++)
+            min_idx = k; 
+            for (int j = k+1; j < n; j++)
             {
                 if (M2[j] < M2[min_idx])
                 {
@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
             }
 
             double tmp = M2[min_idx];
-            M2[min_idx] = M2[i];
-            M2[i] = tmp;
+            M2[min_idx] = M2[k];
+            M2[k] = tmp;
         } 
 
         //reduce
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        result = sum;
+        result += sum;
 
         free(M1);
         free(M2);

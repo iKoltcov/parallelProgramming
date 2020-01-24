@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
 
     int N = atoi(argv[1]);
     int n = N / 2;
-    unsigned int seed = 0;
 
     int A = 7 * 4 * 11;
     double result = 0.0;
@@ -27,17 +26,15 @@ int main(int argc, char *argv[])
         double *M2 = malloc(sizeof(double) * n);
         int j = 0;
 
-        #pragma omp parallel for default(none) private(j) shared(A, M1, N, seed) schedule(static, 16) ordered
         for (j = 0; j < N; j++)
-        {         
-            #pragma omp ordered
+        {     
+            unsigned int seed = i;    
             M1[j] = 1 + (rand_r(&seed) % A);
         }
 
-        #pragma omp parallel for default(none) private(j) shared(A, M2, n, seed) schedule(static, 16) ordered
         for (j = 0; j < n; j++)
         {
-            #pragma omp ordered
+            unsigned int seed = i;  
             M2[j] = A + (rand_r(&seed) % (A * 10));
         }
 
@@ -91,6 +88,13 @@ int main(int argc, char *argv[])
                 M2[k] = tmp;
             }
         } 
+
+        printf("\n***\n");
+        for(int j = 0; j < n; j++)
+        {
+            printf("%f, ", M2[j]);
+        }
+        printf("\n***\n");
 
         //reduce
         double min = 0.0;
